@@ -10,11 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResultatsRouteImport } from './routes/resultats'
+import { Route as PlacesRouteImport } from './routes/places'
+import { Route as PassagersRouteImport } from './routes/passagers'
 import { Route as IndexRouteImport } from './routes/index'
 
 const ResultatsRoute = ResultatsRouteImport.update({
   id: '/resultats',
   path: '/resultats',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlacesRoute = PlacesRouteImport.update({
+  id: '/places',
+  path: '/places',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PassagersRoute = PassagersRouteImport.update({
+  id: '/passagers',
+  path: '/passagers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +37,35 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/passagers': typeof PassagersRoute
+  '/places': typeof PlacesRoute
   '/resultats': typeof ResultatsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/passagers': typeof PassagersRoute
+  '/places': typeof PlacesRoute
   '/resultats': typeof ResultatsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/passagers': typeof PassagersRoute
+  '/places': typeof PlacesRoute
   '/resultats': typeof ResultatsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/resultats'
+  fullPaths: '/' | '/passagers' | '/places' | '/resultats'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/resultats'
-  id: '__root__' | '/' | '/resultats'
+  to: '/' | '/passagers' | '/places' | '/resultats'
+  id: '__root__' | '/' | '/passagers' | '/places' | '/resultats'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PassagersRoute: typeof PassagersRoute
+  PlacesRoute: typeof PlacesRoute
   ResultatsRoute: typeof ResultatsRoute
 }
 
@@ -56,6 +76,20 @@ declare module '@tanstack/react-router' {
       path: '/resultats'
       fullPath: '/resultats'
       preLoaderRoute: typeof ResultatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/places': {
+      id: '/places'
+      path: '/places'
+      fullPath: '/places'
+      preLoaderRoute: typeof PlacesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/passagers': {
+      id: '/passagers'
+      path: '/passagers'
+      fullPath: '/passagers'
+      preLoaderRoute: typeof PassagersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +104,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PassagersRoute: PassagersRoute,
+  PlacesRoute: PlacesRoute,
   ResultatsRoute: ResultatsRoute,
 }
 export const routeTree = rootRouteImport
