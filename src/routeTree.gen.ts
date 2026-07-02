@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResultatsRouteImport } from './routes/resultats'
 import { Route as PlacesRouteImport } from './routes/places'
 import { Route as PassagersRouteImport } from './routes/passagers'
+import { Route as ChauffeurRouteImport } from './routes/chauffeur'
 import { Route as IndexRouteImport } from './routes/index'
 
 const ResultatsRoute = ResultatsRouteImport.update({
@@ -29,6 +30,11 @@ const PassagersRoute = PassagersRouteImport.update({
   path: '/passagers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChauffeurRoute = ChauffeurRouteImport.update({
+  id: '/chauffeur',
+  path: '/chauffeur',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chauffeur': typeof ChauffeurRoute
   '/passagers': typeof PassagersRoute
   '/places': typeof PlacesRoute
   '/resultats': typeof ResultatsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chauffeur': typeof ChauffeurRoute
   '/passagers': typeof PassagersRoute
   '/places': typeof PlacesRoute
   '/resultats': typeof ResultatsRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chauffeur': typeof ChauffeurRoute
   '/passagers': typeof PassagersRoute
   '/places': typeof PlacesRoute
   '/resultats': typeof ResultatsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/passagers' | '/places' | '/resultats'
+  fullPaths: '/' | '/chauffeur' | '/passagers' | '/places' | '/resultats'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/passagers' | '/places' | '/resultats'
-  id: '__root__' | '/' | '/passagers' | '/places' | '/resultats'
+  to: '/' | '/chauffeur' | '/passagers' | '/places' | '/resultats'
+  id: '__root__' | '/' | '/chauffeur' | '/passagers' | '/places' | '/resultats'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChauffeurRoute: typeof ChauffeurRoute
   PassagersRoute: typeof PassagersRoute
   PlacesRoute: typeof PlacesRoute
   ResultatsRoute: typeof ResultatsRoute
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PassagersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chauffeur': {
+      id: '/chauffeur'
+      path: '/chauffeur'
+      fullPath: '/chauffeur'
+      preLoaderRoute: typeof ChauffeurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChauffeurRoute: ChauffeurRoute,
   PassagersRoute: PassagersRoute,
   PlacesRoute: PlacesRoute,
   ResultatsRoute: ResultatsRoute,
