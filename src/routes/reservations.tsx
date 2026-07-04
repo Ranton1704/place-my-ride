@@ -2,9 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AppLayout } from "@/components/AppLayout";
 import {
-  Bus,
   Calendar,
-  MapPin,
   Search,
   Ticket,
   Clock,
