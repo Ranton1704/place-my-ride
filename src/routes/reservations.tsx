@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { AppLayout } from "@/components/AppLayout";
 import {
   Bus,
   Calendar,
@@ -207,45 +208,8 @@ function ReservationsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-              <Bus className="h-5 w-5" />
-            </div>
-            <div className="flex items-baseline gap-0.5">
-              <span className="text-lg font-bold tracking-tight text-foreground">KOP</span>
-              <span className="text-lg font-light text-muted-foreground">—</span>
-              <span className="text-lg font-bold tracking-tight text-primary">V</span>
-            </div>
-          </Link>
-          <nav className="hidden items-center gap-6 text-sm md:flex">
-            <Link to="/" className="text-muted-foreground hover:text-foreground">
-              Rechercher
-            </Link>
-            <Link
-              to="/reservations"
-              className="font-semibold text-foreground"
-              activeProps={{ className: "font-semibold text-primary" }}
-            >
-              Mes réservations
-            </Link>
-            <Link to="/chauffeur" className="text-muted-foreground hover:text-foreground">
-              Espace chauffeur
-            </Link>
-          </nav>
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-sm transition hover:opacity-90"
-          >
-            <Plus className="h-3.5 w-3.5" />
-            Réserver
-          </Link>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-[1400px] px-6 py-8">
+    <AppLayout>
+      <div>
         {/* Hero */}
         <section className="mb-8 flex flex-col gap-6 rounded-2xl border border-border bg-card p-6 md:flex-row md:items-center md:justify-between">
           <div>
@@ -260,14 +224,23 @@ function ReservationsPage() {
               avec KOP-V.
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-3 md:gap-6">
-            <MiniKpi label="Réservations" value={String(RESERVATIONS.length)} icon={Ticket} />
-            <MiniKpi
-              label="À venir"
-              value={String((counts["a_venir"] ?? 0) + (counts["confirmee"] ?? 0))}
-              icon={Clock}
-            />
-            <MiniKpi label="Total dépensé" value={formatPrice(totalSpent)} icon={CheckCircle2} />
+          <div className="flex flex-col items-start gap-3 md:items-end">
+            <div className="grid grid-cols-3 gap-3">
+              <MiniKpi label="Total" value={String(RESERVATIONS.length)} icon={Ticket} />
+              <MiniKpi
+                label="À venir"
+                value={String((counts["a_venir"] ?? 0) + (counts["confirmee"] ?? 0))}
+                icon={Clock}
+              />
+              <MiniKpi label="Dépensé" value={formatPrice(totalSpent)} icon={CheckCircle2} />
+            </div>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-sm transition hover:opacity-90"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              Réserver un voyage
+            </Link>
           </div>
         </section>
 
@@ -335,8 +308,8 @@ function ReservationsPage() {
             ))}
           </div>
         )}
-      </main>
-    </div>
+      </div>
+    </AppLayout>
   );
 }
 
