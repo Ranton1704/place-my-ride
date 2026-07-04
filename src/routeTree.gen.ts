@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResultatsRouteImport } from './routes/resultats'
+import { Route as ReservationsRouteImport } from './routes/reservations'
 import { Route as PlacesRouteImport } from './routes/places'
 import { Route as PassagersRouteImport } from './routes/passagers'
 import { Route as ChauffeurRouteImport } from './routes/chauffeur'
@@ -18,6 +19,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const ResultatsRoute = ResultatsRouteImport.update({
   id: '/resultats',
   path: '/resultats',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReservationsRoute = ReservationsRouteImport.update({
+  id: '/reservations',
+  path: '/reservations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlacesRoute = PlacesRouteImport.update({
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/chauffeur': typeof ChauffeurRoute
   '/passagers': typeof PassagersRoute
   '/places': typeof PlacesRoute
+  '/reservations': typeof ReservationsRoute
   '/resultats': typeof ResultatsRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/chauffeur': typeof ChauffeurRoute
   '/passagers': typeof PassagersRoute
   '/places': typeof PlacesRoute
+  '/reservations': typeof ReservationsRoute
   '/resultats': typeof ResultatsRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,34 @@ export interface FileRoutesById {
   '/chauffeur': typeof ChauffeurRoute
   '/passagers': typeof PassagersRoute
   '/places': typeof PlacesRoute
+  '/reservations': typeof ReservationsRoute
   '/resultats': typeof ResultatsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chauffeur' | '/passagers' | '/places' | '/resultats'
+  fullPaths:
+    | '/'
+    | '/chauffeur'
+    | '/passagers'
+    | '/places'
+    | '/reservations'
+    | '/resultats'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chauffeur' | '/passagers' | '/places' | '/resultats'
-  id: '__root__' | '/' | '/chauffeur' | '/passagers' | '/places' | '/resultats'
+  to:
+    | '/'
+    | '/chauffeur'
+    | '/passagers'
+    | '/places'
+    | '/reservations'
+    | '/resultats'
+  id:
+    | '__root__'
+    | '/'
+    | '/chauffeur'
+    | '/passagers'
+    | '/places'
+    | '/reservations'
+    | '/resultats'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +104,7 @@ export interface RootRouteChildren {
   ChauffeurRoute: typeof ChauffeurRoute
   PassagersRoute: typeof PassagersRoute
   PlacesRoute: typeof PlacesRoute
+  ReservationsRoute: typeof ReservationsRoute
   ResultatsRoute: typeof ResultatsRoute
 }
 
@@ -86,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/resultats'
       fullPath: '/resultats'
       preLoaderRoute: typeof ResultatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reservations': {
+      id: '/reservations'
+      path: '/reservations'
+      fullPath: '/reservations'
+      preLoaderRoute: typeof ReservationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/places': {
@@ -124,18 +160,9 @@ const rootRouteChildren: RootRouteChildren = {
   ChauffeurRoute: ChauffeurRoute,
   PassagersRoute: PassagersRoute,
   PlacesRoute: PlacesRoute,
+  ReservationsRoute: ReservationsRoute,
   ResultatsRoute: ResultatsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
